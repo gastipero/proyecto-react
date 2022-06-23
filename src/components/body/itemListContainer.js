@@ -1,5 +1,6 @@
 import coponGin from './images/copongin.jpg';
 import 'materialize-css/dist/css/materialize.min.css';
+import { Botonera } from './botones.js'
 
 export const ItemListContainer = (props) => {
     return (
@@ -14,6 +15,7 @@ export const ItemListContainer = (props) => {
                             <p>Precio: ${props.itemPrice}</p>
                             <p>Stock: {props.itemStock}</p>
                         </div>
+                        <Botonera itemStocks={props.itemStock}/>
                     </div>
                 </div>
             </div>
