@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 // ES6 Modules or TypeScript
 import Swal from 'sweetalert2'
+import { items } from "./items";
 
 export const Botonera = (propers) => {
     const [cantidad, setCantidad] = useState(0)
@@ -15,6 +16,7 @@ export const Botonera = (propers) => {
     }
     const agregarProducto = () => {
         if (cantidad !== 0) {
+            console.log(cantidad);
             setCantidad(0)
             Swal.fire(
                 'Éxito!',
@@ -30,15 +32,21 @@ export const Botonera = (propers) => {
             )
         }
     }
+    const [estado,setEstado] = useState(false)
+    const cambioEstado = () => {
+        itemStocks === 0 ? setEstado(true) : setEstado(false);
+    }
+
+
     return (
-        <div>
+        <div onLoadCapture={cambioEstado}>
             <div style={styles.container}>
                 <FontAwesomeIcon icon={faMinus} onClick={restarProducto} style={styles.botons} />
                 <span style={styles.quantity}>{cantidad} </span>
                 <FontAwesomeIcon icon={faPlus} onClick={sumarProducto} style={styles.botons} />
             </div>
             <div>
-                <FontAwesomeIcon icon={faCartPlus} style={styles.cartAdd} onClick={agregarProducto} />
+                <button disabled={estado} onClick={agregarProducto} id='btn-agregar' style={styles.cartAdd} ><FontAwesomeIcon icon={faCartPlus} /></button>
             </div>
         </div>
     )
@@ -67,6 +75,8 @@ const styles = {
     },
     cartAdd: {
         fontSize: 40,
-        margin: 10
+        margin: 10,
+        backgroundColor: 'transparent',
+        border: 'none',
     },
 }

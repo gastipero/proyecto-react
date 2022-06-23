@@ -18,7 +18,7 @@ export const items = {
     },
     caja:{
         id:'3',
-        stock:10,
+        stock:0,
         precio:7200,
         nombre: 'Caja x9 Artemis 500mL',
         imagen: botella
