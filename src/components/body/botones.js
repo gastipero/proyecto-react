@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 // ES6 Modules or TypeScript
@@ -32,11 +32,15 @@ export const Botonera = (propers) => {
             )
         }
     }
-    const [estado,setEstado] = useState(false)
+    const [estado, setEstado] = useState(false)
     const cambioEstado = () => {
         itemStocks === 0 ? setEstado(true) : setEstado(false);
     }
 
+    useEffect(() => {
+        cambioEstado()
+    }, [estado]
+    )
 
     return (
         <div onLoadCapture={cambioEstado}>

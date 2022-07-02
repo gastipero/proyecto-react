@@ -10,7 +10,7 @@ export const ItemListContainer = (props) => {
                         <div class="card-image">
                             <img src={props.itemImg} style={styles.imagenes} />
                         </div>
-                        <div class="card-content">
+                        <div class="card-content" style={styles.card}>
                             <span class="card-title">{props.itemName}</span>
                             <p>Precio: ${props.itemPrice}</p>
                             <p>Stock: {props.itemStock}</p>
@@ -28,9 +28,12 @@ const styles={
         marginRight:'7%',
     },
     imagenes: {
-        height:270,
-        objectFit: 'cover',
+        height:200,
+        objectFit: 'contain',
         objectPosition: 'center',
     },
+    card: {
+        height: 200,
+        padding: 10
+    }
 }
-
