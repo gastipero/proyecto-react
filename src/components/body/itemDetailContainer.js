@@ -1,9 +1,7 @@
 import 'materialize-css/dist/css/materialize.min.css';
 import { useEffect, useState } from 'react';
 
-
 export const ItemListDetail = (props) => {
-
     return (
         <div class="col m12">
             <div class="card" style={styles.container}>
