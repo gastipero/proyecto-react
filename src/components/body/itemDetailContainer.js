@@ -1,47 +1,50 @@
 import 'materialize-css/dist/css/materialize.min.css';
+import { ItemDetail } from './itemDetail'
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom'
+import BounceLoader from "react-spinners/BounceLoader";
 
-export const ItemListDetail = (props) => {
+export const ItemListDetail = () => {
+    const [product, setProduct] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
+    const { itemId} = useParams()
+    const URL = `https://fakestoreapi.com/products/${itemId}`
+    const getProducts = async () => {
+        try {
+            const response = await fetch(URL)
+            const data = await response.json()
+            setProduct(data)
+        }
+        catch (err) {
+            setError(true);
+            console.log(err);
+        }
+        finally { setLoading(false) }
+    }
+    useEffect(() => {
+        getProducts()
+    },
+        [loading]
+    )
+
     return (
-        <div class="col m12">
-            <div class="card" style={styles.container}>
-                <div class="card-image col m6">
-                    <img src={props.itemImg} style={styles.imagenes} />
-                    <span class="card-title">{props.itemName}</span>
-                </div>
-                <div class="card-content col m6" style={styles.side}> 
-                    <div>
-                        <h4>{props.itemName}</h4>
-                        <h6>{props.itemDescription}</h6>
-                    </div>
-                    <div style={styles.priceAndStock}>
-                        <h5>Price:{props.itemPrice}</h5>
-                        <h5>Stock:{props.itemStock}</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <>
+            {loading ? (
+                <BounceLoader
+                    color="#111517"
+                    size='100px'
+                    cssOverride={{
+                        left: '50%',
+                        bottom: '50%',
+                        position: 'absolute'
+
+                    }}
+                    loading
+                />) : <ItemDetail key={product.id} product={product} />}
+        </>
     )
 }
 
 
 
-const styles = {
-    container: {
-        marginLeft: '7%',
-        marginRight: '7%',
-    },
-    imagenes: {
-        height: '80vh',
-        objectFit: 'contain',
-        objectPosition: 'center',
-    },
-    side: {
-        height: '80vh',
-        justifyContent: 'space-between',
-        display: 'flex',
-        flexFlow: 'column',
-    },
-    priceAndStock: {
-    }
-}
