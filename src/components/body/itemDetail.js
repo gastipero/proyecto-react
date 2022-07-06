@@ -5,11 +5,11 @@ import { useParams } from 'react-router-dom';
 
 
 export const ItemDetail = ({ product }) => {
-    const {categoryName} = useParams()
-    return (<div class="col m12">
+    const { categoryName } = useParams()
+    return (<div class="row">
         <div class="card" style={styles.container}>
+            <Link to={categoryName ? (`/category/${categoryName}`) : "/"}><FontAwesomeIcon icon={faXmark} style={styles.exitCross} /></Link>
             <div class="card-image col m6">
-                <Link to={categoryName ? (`/category/${categoryName}`) : "/"}><FontAwesomeIcon icon={faXmark} /></Link>
                 <img src={product.image} style={styles.imagenes} />
             </div>
             <div class="card-content col m6" style={styles.side}>
@@ -32,16 +32,25 @@ const styles = {
         marginRight: '7%',
     },
     imagenes: {
-        height: '80vh',
+        height: '50vh',
         objectFit: 'contain',
         objectPosition: 'center',
+        display: 'flex'
     },
     side: {
-        height: '80vh',
+        height: '50vh',
         justifyContent: 'space-between',
         display: 'flex',
         flexFlow: 'column',
     },
     priceAndStock: {
+    },
+    exitCross: {
+        top: 5,
+        right: 15,
+        fontSize: 30,
+        position: 'absolute',
+        zIndex: 1000,
+        color: '#111517'
     }
 }
