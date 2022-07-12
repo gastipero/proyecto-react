@@ -4,10 +4,15 @@ import { faCartPlus, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 // ES6 Modules or TypeScript
 import Swal from 'sweetalert2'
 import { items } from "./items";
+import { Link } from 'react-router-dom'
+export let carrito = []
+
+
 
 export const Botonera = (propers) => {
     const [cantidad, setCantidad] = useState(0)
-    const { itemStocks } = propers
+    const [endCart, setEndCart] = useState(false)
+    const { itemStocks, itemName, product } = propers
     const sumarProducto = () => {
         (itemStocks > cantidad) ? setCantidad(cantidad + 1) : setCantidad(cantidad)
     }
@@ -16,13 +21,20 @@ export const Botonera = (propers) => {
     }
     const agregarProducto = () => {
         if (cantidad !== 0) {
-            console.log(cantidad);
-            setCantidad(0)
             Swal.fire(
                 'Éxito!',
                 'Tu producto fue agregado con éxito!',
                 'success'
             )
+            let added = {
+                item: { product },
+                quant: { cantidad },
+                idCart: Date.now()
+            }
+            carrito = [...carrito, added]
+            console.log(carrito);
+            setCantidad(0)
+            setEndCart(true)
         }
         else {
             Swal.fire(
@@ -34,23 +46,23 @@ export const Botonera = (propers) => {
     }
     const [estado, setEstado] = useState(false)
     const cambioEstado = () => {
-        itemStocks === 0 ? setEstado(true) : setEstado(false);
+        itemStocks === 0 ? setEstado(true) : endCart ? setEstado(true) : setEstado(false);
     }
 
     useEffect(() => {
         cambioEstado()
-    }, [estado]
+    }, [estado, cantidad]
     )
 
     return (
         <div onLoadCapture={cambioEstado}>
-            <div style={styles.container}>
+            <div style={estado ? styles.containerDis : styles.container}>
                 <FontAwesomeIcon icon={faMinus} onClick={restarProducto} style={styles.botons} />
                 <span style={styles.quantity}>{cantidad} </span>
                 <FontAwesomeIcon icon={faPlus} onClick={sumarProducto} style={styles.botons} />
             </div>
             <div>
-                <button disabled={estado} onClick={agregarProducto} id='btn-agregar' style={styles.cartAdd} ><FontAwesomeIcon icon={faCartPlus} /></button>
+                {endCart ? <Link to='/cart'><button style={styles.finalizarCompra}>Finalizar Compra</button></Link> : <button disabled={estado} onClick={agregarProducto} id='btn-agregar' style={styles.cartAdd} ><FontAwesomeIcon icon={faCartPlus} /></button>}
             </div>
         </div>
     )
@@ -68,6 +80,18 @@ const styles = {
         paddingRight: 20,
         backgroundColor: '#111517',
     },
+    containerDis: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: "center",
+        marginLeft: '7%',
+        marginRight: '7%',
+        paddingLeft: 20,
+        paddingRight: 20,
+        backgroundColor: '#111517',
+        pointerEvents: 'none',
+        opacity: 0.7,
+    },
     botons: {
         margin: 10,
         fontSize: 30,
@@ -83,4 +107,10 @@ const styles = {
         backgroundColor: 'transparent',
         border: 'none',
     },
+    finalizarCompra: {
+        height: 48,
+        margin: 10,
+        padding: 1,
+        fontSize: '100%',
+    }
 }

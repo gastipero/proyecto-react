@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom';
+import { Botonera } from './botones.js';
+
 
 
 export const ItemDetail = ({ product }) => {
@@ -20,6 +22,7 @@ export const ItemDetail = ({ product }) => {
                 <div style={styles.priceAndStock}>
                     <h5>Price: ${product.price}</h5>
                     <h5>Stock: {product.rating.count} </h5>
+                    <Botonera itemStocks={product.rating.count} itemName={product.title} product={product}/>
                 </div>
             </div>
         </div>

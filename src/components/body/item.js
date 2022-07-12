@@ -15,7 +15,7 @@ export const Item = ({product}) => {
                     <p>Stock: {product.rating.count}</p>
                     <Link to={`item/${product.id}`}>Ver mas detalles</Link>
                 </div>
-                <Botonera itemStocks={product.rating.count} />
+                <Botonera itemStocks={product.rating.count} itemName={product.title} product={product}/>
             </div>
         </div>
     )
