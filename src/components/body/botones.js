@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { createContext } from "react";
 // ES6 Modules or TypeScript
 import Swal from 'sweetalert2'
 import { items } from "./items";
+import { context } from "../../context/cartContext";
 import { Link } from 'react-router-dom'
-export let carrito = []
 
 
 
@@ -13,6 +14,7 @@ export const Botonera = (propers) => {
     const [cantidad, setCantidad] = useState(0)
     const [endCart, setEndCart] = useState(false)
     const { itemStocks, itemName, product } = propers
+    const { addProduct } = useContext(context)
     const sumarProducto = () => {
         (itemStocks > cantidad) ? setCantidad(cantidad + 1) : setCantidad(cantidad)
     }
@@ -29,10 +31,8 @@ export const Botonera = (propers) => {
             let added = {
                 item: { product },
                 quant: { cantidad },
-                idCart: Date.now()
             }
-            carrito = [...carrito, added]
-            console.log(carrito);
+            addProduct(added)
             setCantidad(0)
             setEndCart(true)
         }

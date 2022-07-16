@@ -1,39 +1,43 @@
-import { carrito } from "../body/botones"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { context } from "../../context/cartContext";
+import { Link } from 'react-router-dom'
+
 
 export const Cart = () => {
+    const { productos, removeProduct } = useContext(context)
+    console.log(productos)
     const eliminarProducto = (e) => {
         console.log(e.target.parentElement.parentElement.id);
-        const idClick= e.target.parentElement.parentElement.id
-        carrito = carrito.filter(item => item.idCart != idClick)
+        const idClick = e.target.parentElement.parentElement.id
+        removeProduct(idClick)
+        /* productos = productos.filter(item => item.item.product.id != idClick) */
     }
     useEffect(() => {
     }
-        , [carrito])
+        , [productos])
+
     return (
         <div>
-            {carrito.map((item) => {
-                return (
-                    <div key={item.idCart} id={item.idCart} class="row" style={styles.container}>
-                        <div class="col s1">
-                            <img src={item.item.product.image} style={styles.images}/>
+            {productos.length == 0 ? (<h2>No hay productos en tu carrito, <Link to='/'>HAZ CLICK AQUÍ PARA INICIAR A COMPRAR</Link></h2>) :(
+                productos.map((item) => {
+                    return (
+                        <div key={item.idCart} id={item.item.product.id} class="row" style={styles.container}>
+                            <div class="col s1">
+                                <img src={item.item.product.image} style={styles.images} />
+                            </div>
+                            <div class="col s9">
+                                <p>{item.item.product.title}</p>
+                                <p>{item.item.product.description}</p>
+                            </div>
+                            <div class="col s1">
+                                <p>{item.quant.cantidad}</p>
+                            </div>
+                            <div class="col s1">
+                                <i class="material-icons" style={styles.icon} onClick={eliminarProducto}>delete_forever</i>
+                            </div>
                         </div>
-                        <div class="col s9">
-                            <p>{item.item.product.title}</p>
-                            <p>{item.item.product.description}</p>
-                        </div>
-                        <div class="col s1">
-                            <p>{item.quant.cantidad}</p>
-                        </div>
-                        <div class="col s1">
-                        
-                            <i class="material-icons" style={styles.icon} onClick={eliminarProducto}>delete_forever</i> 
-                        </div>
-                    </div>
-                )
-            })}
+                    )
+                }))}
         </div>
     )
 }
