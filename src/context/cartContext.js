@@ -18,7 +18,7 @@ export const CartContext = ({ children }) => {
         setProductos(productos.filter(item => item.item.product.id != idClick))
     }
     const clear = () => {
-
+        setProductos([])
     }
 
     return (
