@@ -6,7 +6,6 @@ const { Provider } = context
 
 export const CartContext = ({ children }) => {
     const [productos, setProductos] = useState([])
-    const [existeEnCart, setExtisteEnCart] = useState(false)
   
     const isInCart = (added) => {
         productos.find(producto => producto.item.product.id == added.item.product.id) ? (productos.find(producto => producto.item.product.id == added.item.product.id).quant.cantidad) = (productos.find(producto => producto.item.product.id == added.item.product.id).quant.cantidad) + (added.quant.cantidad) : setProductos([...productos, added])

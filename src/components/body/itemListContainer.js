@@ -3,14 +3,34 @@ import { useState, useEffect } from 'react';
 import BounceLoader from "react-spinners/BounceLoader";
 import { ItemList } from './itemList'
 import {useParams} from 'react-router-dom'
-
+import { db } from '../../firebase/firebase'
+import { getDocs, collection, query, where} from 'firebase/firestore'
 
 export const ItemListContainer = () => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
     const { categoryName } = useParams()
-    const URL = categoryName ? `https://fakestoreapi.com/products/category/${categoryName}` : 'https://fakestoreapi.com/products/'
+
+    const getProducts = () => {
+        const productCollection = categoryName ? query(collection(db,'productos'), where('category', '==', categoryName)) : collection(db,'productos')
+        getDocs(productCollection)
+        .then(result => {
+            const lista = result.docs.map(doc => {
+                return {
+                    ...doc.data(),
+                }
+            })
+            setProducts(lista)
+        })
+        .catch ((err) => {
+            setError(true);
+            console.log(err);
+        })
+        .finally (() => setLoading(false))
+    }
+
+    /* const URL = categoryName ? `https://fakestoreapi.com/products/category/${categoryName}` : 'https://fakestoreapi.com/products/'
     const getProducts = async () => {
         try {
             setLoading(true)
@@ -23,7 +43,7 @@ export const ItemListContainer = () => {
             console.log(err);
         }
         finally { setLoading(false) }
-    }
+    } */
     useEffect(() => {
         getProducts()
     },
