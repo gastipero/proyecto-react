@@ -2,9 +2,9 @@ import 'materialize-css/dist/css/materialize.min.css';
 import { useState, useEffect } from 'react';
 import BounceLoader from "react-spinners/BounceLoader";
 import { ItemList } from './itemList'
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { db } from '../../firebase/firebase'
-import { getDocs, collection, query, where} from 'firebase/firestore'
+import { getDocs, collection, query, where } from 'firebase/firestore'
 
 export const ItemListContainer = () => {
     const [products, setProducts] = useState([])
@@ -13,37 +13,23 @@ export const ItemListContainer = () => {
     const { categoryName } = useParams()
 
     const getProducts = () => {
-        const productCollection = categoryName ? query(collection(db,'productos'), where('category', '==', categoryName)) : collection(db,'productos')
+        const productCollection = categoryName ? query(collection(db, 'productos'), where('category', '==', categoryName)) : collection(db, 'productos')
         getDocs(productCollection)
-        .then(result => {
-            const lista = result.docs.map(doc => {
-                return {
-                    ...doc.data(),
-                }
+            .then(result => {
+                const lista = result.docs.map(doc => {
+                    return {
+                        ...doc.data(),
+                    }
+                })
+                setProducts(lista)
             })
-            setProducts(lista)
-        })
-        .catch ((err) => {
-            setError(true);
-            console.log(err);
-        })
-        .finally (() => setLoading(false))
+            .catch((err) => {
+                setError(true);
+                console.log(err);
+            })
+            .finally(() => setLoading(false))
     }
 
-    /* const URL = categoryName ? `https://fakestoreapi.com/products/category/${categoryName}` : 'https://fakestoreapi.com/products/'
-    const getProducts = async () => {
-        try {
-            setLoading(true)
-            const response = await fetch(URL)
-            const data = await response.json()
-            setProducts(data)
-        }
-        catch (err) {
-            setError(true);
-            console.log(err);
-        }
-        finally { setLoading(false) }
-    } */
     useEffect(() => {
         getProducts()
     },
@@ -64,8 +50,6 @@ export const ItemListContainer = () => {
                     }}
                     loading
                 />) : error ? alert('ocurrio un error') : <ItemList products={products} />}
-
-
         </div>
     );
 }

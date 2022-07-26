@@ -16,15 +16,12 @@ export const ItemListDetail = () => {
         const productCollection = query(collection(db,'productos'), where('id', '==', parseInt(itemId)))
         getDocs(productCollection)
         .then(result => {
-            console.log(result)
             const lista = result.docs.map(doc => {
                 return {
                     ...doc.data(),
                 }
             })
             setProduct(lista[0])
-            console.log(lista[0]);
-            console.log(itemId);
         })
         .catch ((err) => {
             setError(true);
@@ -32,21 +29,7 @@ export const ItemListDetail = () => {
         })
         .finally (() => setLoading(false))
     }
-
-/*       const URL = `https://fakestoreapi.com/products/${itemId}`
-      const getProducts = async () => {
-          try {
-              const response = await fetch(URL)
-              const data = await response.json()
-              setProduct(data)
-          }
-          catch (err) {
-              setError(true);
-              console.log(err);
-          }
-          finally { setLoading(false) }
-      }
-  */     
+     
     useEffect(() => {
         getProducts()
     },

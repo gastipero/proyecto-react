@@ -9,12 +9,9 @@ export const Cart = () => {
     productos.map((items)=>{
       total += (items.quant.cantidad * items.item.product.price)  
     })
-    console.log(productos)
     const eliminarProducto = (e) => {
-        console.log(e.target.parentElement.parentElement.id);
         const idClick = e.target.parentElement.parentElement.id
         removeProduct(idClick)
-        /* productos = productos.filter(item => item.item.product.id != idClick) */
     }
     useEffect(() => {
     }

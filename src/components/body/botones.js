@@ -4,7 +4,6 @@ import { faCartPlus, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { createContext } from "react";
 // ES6 Modules or TypeScript
 import Swal from 'sweetalert2'
-import { items } from "./items";
 import { context } from "../../context/cartContext";
 import { Link } from 'react-router-dom'
 
