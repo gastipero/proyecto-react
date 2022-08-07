@@ -68,7 +68,7 @@ export const EndCart = () => {
             {validarDatos
                 ? <div>
                     <h2>Gracias por su compra {cliente.name}</h2>
-                    <p>Se procesó correctamente el pago. Su producto será enviado a {cliente.address}</p>
+                    <p>Se procesó correctamente el pago. El ID de su compra es {cliente.id}. Su producto será enviado a {cliente.address}</p>
                     <Link to='/'><h2>Volver al incio</h2></Link>
                 </div>
                 : (<>
